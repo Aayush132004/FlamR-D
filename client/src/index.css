@@ -1,0 +1,412 @@
+/* ── Fonts ─────────────────────────────────────────────────────────────────── */
+/* Inter loaded via <link> in index.html — no @import to avoid render blocking */
+
+/* ── Design Tokens ──────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-base:           #050510;
+  --bg-surface:        rgba(255, 255, 255, 0.045);
+  --bg-surface-hover:  rgba(255, 255, 255, 0.075);
+
+  /* Borders */
+  --border:            rgba(255, 255, 255, 0.08);
+  --border-strong:     rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --text-1:            rgba(255, 255, 255, 0.95);
+  --text-2:            rgba(255, 255, 255, 0.55);
+  --text-3:            rgba(255, 255, 255, 0.30);
+
+  /* Brand */
+  --accent:            #6366f1;
+  --accent-dim:        rgba(99, 102, 241, 0.18);
+  --accent-border:     rgba(99, 102, 241, 0.35);
+  --teal:              #06b6d4;
+
+  /* Radii */
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  16px;
+  --r-xl:  24px;
+  --r-full: 9999px;
+
+  /* Blur */
+  --glass: blur(18px) saturate(160%);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── App root ───────────────────────────────────────────────────────────────── */
+.app-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  /* Subtle ambient glow — purple from top-left, teal from bottom-right */
+  background:
+    radial-gradient(ellipse 80% 55% at 15% 35%,  rgba(99, 102, 241, 0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 45% at 85% 75%,  rgba(6, 182, 212, 0.07)  0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 10%,  rgba(99, 102, 241, 0.05) 0%, transparent 55%),
+    var(--bg-base);
+}
+
+/* ── Top bar ────────────────────────────────────────────────────────────────── */
+.top-bar {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 200;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(5, 5, 16, 0.75);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border-bottom: 1px solid var(--border);
+}
+
+.top-bar-left,
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+}
+
+.logo-pulse {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0);
+    transform: scale(1.1);
+  }
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  background: linear-gradient(120deg, #fff 35%, rgba(139, 92, 246, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Room tag */
+.room-tag {
+  font-size: 11.5px;
+  font-weight: 500;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  color: var(--text-2);
+  background: var(--bg-surface);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  letter-spacing: 0.02em;
+}
+
+/* Status chip */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--r-full);
+  transition: background 0.35s ease, color 0.35s ease;
+  white-space: nowrap;
+}
+
+.status-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transition: background 0.35s ease;
+  animation: dotBlink 2s ease-in-out infinite;
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* RTT chip */
+.rtt-chip {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--bg-surface);
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rtt-num {
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+/* ── Canvas ─────────────────────────────────────────────────────────────────── */
+.sync-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Hide the system cursor entirely — we draw our own for self too (future). */
+  cursor: crosshair;
+  display: block;
+}
+
+/* ── Canvas hint ────────────────────────────────────────────────────────────── */
+.canvas-hint {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-3);
+  background: rgba(5, 5, 16, 0.65);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  padding: 5px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  animation: hintFadeIn 1.5s ease forwards;
+}
+
+@keyframes hintFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 68px;
+  right: 16px;
+  z-index: 150;
+  width: 208px;
+  background: rgba(8, 8, 22, 0.72);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  animation: sidebarIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sidebarIn {
+  from { opacity: 0; transform: translateX(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0)    scale(1);    }
+}
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-2);
+}
+
+.sidebar-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  padding: 1px 8px;
+  border-radius: var(--r-full);
+  min-width: 26px;
+  text-align: center;
+}
+
+/* Peer list */
+.peer-list {
+  list-style: none;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.peer-list::-webkit-scrollbar       { width: 3px; }
+.peer-list::-webkit-scrollbar-track { background: transparent; }
+.peer-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+.peer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--r-sm);
+  transition: background 0.15s ease;
+  animation: peerIn 0.3s ease both;
+}
+
+@keyframes peerIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.peer-item:hover {
+  background: var(--bg-surface-hover);
+}
+
+.peer-self {
+  background: rgba(99, 102, 241, 0.07);
+  border: 1px solid rgba(99, 102, 241, 0.14);
+}
+
+.peer-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.peer-name {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-1);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.peer-you-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 1px 7px;
+  border-radius: var(--r-full);
+  flex-shrink: 0;
+}
+
+/* ── Emoji bar ──────────────────────────────────────────────────────────────── */
+.emoji-bar {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 150;
+  display: flex;
+  gap: 5px;
+  padding: 7px;
+  background: rgba(8, 8, 22, 0.82);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  animation: barIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+@keyframes barIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0);    }
+}
+
+.emoji-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.emoji-btn:hover {
+  background: var(--bg-surface-hover);
+  transform: scale(1.12) translateY(-1px);
+}
+
+.emoji-btn:active {
+  transform: scale(0.94);
+}
+
+.emoji-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.28), inset 0 0 8px rgba(99, 102, 241, 0.12);
+  transform: scale(1.12) translateY(-2px);
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
