@@ -33,5 +33,6 @@ export function createRoom(opts:{serverUrl:string;roomId:string;clientId:string;
     destroy():void{destroyed=true;if(reconnectTimer)clearTimeout(reconnectTimer);stopPingLoop();outboundQueue.length=0;ws?.close(1000,'destroyed');subscribers.clear();},
   };
 }
+/** sessionStorage scope: same tab + page refreshes. Tab close = new ID on reopen. */
 export function getOrCreateClientId():string{const K='liveroom_client_id';const s=sessionStorage.getItem(K);if(s)return s;const id=${Date.now().toString(36)}-;sessionStorage.setItem(K,id);return id;}
 export function getOrCreateDisplayName():string{const K='liveroom_display_name';const s=sessionStorage.getItem(K);if(s)return s;const a=['Swift','Bold','Keen','Bright','Wild','Cool','Sharp','Calm'],n=['Fox','Eagle','Wolf','Bear','Hawk','Lion','Lynx','Panda'];const nm=${a[Math.floor(Math.random()*a.length)]} ;sessionStorage.setItem(K,nm);return nm;}
